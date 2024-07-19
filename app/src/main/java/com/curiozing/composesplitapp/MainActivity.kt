@@ -31,9 +31,8 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun HeaderView() {
+fun HeaderView(total: Double = 0.0) {
     Card {
-
     }
 }
 
