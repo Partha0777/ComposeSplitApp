@@ -38,8 +38,11 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun HeaderView(total: Double = 0.0) {
-   Card(modifier = Modifier.height(150.dp).fillMaxWidth().background(color = Color.Gray)) {
+fun HeaderView() {
+   Card(modifier = Modifier
+       .height(150.dp)
+       .fillMaxWidth()
+       .background(color = Color.Gray)) {
 
    }
 }
@@ -56,6 +59,6 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     ComposeSplitAppTheme {
-        Greeting("Android")
+        HeaderView()
     }
 }
