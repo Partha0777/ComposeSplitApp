@@ -25,18 +25,21 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeSplitAppTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
-                }
+
             }
         }
     }
 }
 
+@Composable
+fun MyApp(content: @Composable () -> Unit){
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
+    ) {
+        content
+    }
+}
 @Composable
 fun HeaderView() {
    Card(modifier = Modifier
