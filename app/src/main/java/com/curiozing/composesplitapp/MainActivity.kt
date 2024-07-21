@@ -25,7 +25,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeSplitAppTheme {
-
+                MyApp {
+                    HeaderView()
+                }
             }
         }
     }
@@ -62,6 +64,8 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     ComposeSplitAppTheme {
-        HeaderView()
+        MyApp {
+            HeaderView()
+        }
     }
 }
