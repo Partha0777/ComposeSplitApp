@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MyApp(content: @Composable () -> Unit){
+fun MyApp(content: @Composable () -> Unit) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -46,15 +46,17 @@ fun MyApp(content: @Composable () -> Unit){
         }
     }
 }
+
 @Composable
 fun HeaderView() {
-   Card(modifier = Modifier
-       .height(150.dp)
-       .fillMaxWidth()
-       .padding(horizontal = 12.dp, vertical = 12.dp)
-   ) {
+    Card(
+        modifier = Modifier
+            .height(150.dp)
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp, vertical = 12.dp)
+    ) {
 
-   }
+    }
 }
 
 @Composable
