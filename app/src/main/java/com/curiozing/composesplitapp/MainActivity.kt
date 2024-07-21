@@ -4,10 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.MaterialTheme
@@ -39,7 +41,9 @@ fun MyApp(content: @Composable () -> Unit){
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        content
+        Column {
+            content()
+        }
     }
 }
 @Composable
@@ -47,7 +51,8 @@ fun HeaderView() {
    Card(modifier = Modifier
        .height(150.dp)
        .fillMaxWidth()
-       .background(color = Color.Gray)) {
+       .padding(horizontal = 12.dp, vertical = 12.dp)
+   ) {
 
    }
 }
