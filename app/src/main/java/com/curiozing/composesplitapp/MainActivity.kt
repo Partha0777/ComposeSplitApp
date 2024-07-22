@@ -33,28 +33,26 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeSplitAppTheme {
-                MyApp {
-                    Column {
-                        HeaderView()
-                        FormView()
-                    }
-                }
+                MyApp()
             }
         }
     }
 }
 
 @Composable
-fun MyApp(content: @Composable () -> Unit) {
+fun MyApp() {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
         Column {
-            content()
+            HeaderView()
+            FormView()
         }
     }
 }
+
+
 
 @Composable
 fun HeaderView() {
@@ -66,7 +64,8 @@ fun HeaderView() {
     ) {
 
         Box(
-            modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+            modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
+        ) {
             Text(text = "$100", style = TextStyle(fontSize = 28.sp, fontWeight = FontWeight(600)))
         }
 
@@ -74,20 +73,23 @@ fun HeaderView() {
 }
 
 @Composable
-fun FormView(){
-    var totalValue by remember{ mutableStateOf("") }
+fun FormView() {
+    var totalValue by remember { mutableStateOf("") }
 
-    Column(modifier = Modifier
-        .padding(horizontal = 12.dp, vertical = 12.dp)
-        .fillMaxWidth()) {
+    Column(
+        modifier = Modifier
+            .padding(horizontal = 12.dp, vertical = 12.dp)
+            .fillMaxWidth()
+    ) {
 
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = totalValue, onValueChange = {
                 totalValue = it
-        })
+            })
     }
 }
+
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     Text(
@@ -100,9 +102,6 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     ComposeSplitAppTheme {
-        MyApp {
-            HeaderView()
-            FormView()
-        }
+        MyApp()
     }
 }
