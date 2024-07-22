@@ -11,9 +11,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
@@ -29,7 +36,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             ComposeSplitAppTheme {
                 MyApp {
-                    HeaderView()
+                    Column {
+                        HeaderView()
+                        FormView()
+                    }
                 }
             }
         }
@@ -65,6 +75,19 @@ fun HeaderView() {
     }
 }
 
+@Composable
+fun FormView(){
+    var totalValue by remember{ mutableStateOf("") }
+
+    Column(modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp).fillMaxWidth()) {
+
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = totalValue, onValueChange = {
+                totalValue = it
+        })
+    }
+}
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     Text(
