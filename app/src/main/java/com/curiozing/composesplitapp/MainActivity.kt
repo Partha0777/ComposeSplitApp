@@ -3,6 +3,7 @@ package com.curiozing.composesplitapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
@@ -33,6 +35,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -60,7 +65,10 @@ fun MyApp() {
     ) {
         Column {
             HeaderView()
-            FormView()
+            Box(modifier = Modifier.padding(12.dp).border(width = 1.dp, color = Color.Gray, shape = RoundedCornerShape(4))) {
+                FormView()
+            }
+
         }
     }
 }
@@ -112,17 +120,18 @@ fun FormView() {
             )
             Row(verticalAlignment = Alignment.CenterVertically) {
 
-                RounderIconButton(Icons.Filled.AddCircle) {
-                    totalPersons = (totalPersons.toInt() + 1).toString()
-                }
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(text = totalPersons, style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight(600)))
-                Spacer(modifier = Modifier.width(8.dp))
                 RounderIconButton(Icons.Outlined.Delete) {
                     if(totalPersons != "0"){
                         totalPersons = (totalPersons.toInt() - 1).toString()
                     }
                 }
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(text = totalPersons, style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight(600)))
+                Spacer(modifier = Modifier.width(8.dp))
+                RounderIconButton(Icons.Filled.AddCircle) {
+                    totalPersons = (totalPersons.toInt() + 1).toString()
+                }
+
 
             }
         }
