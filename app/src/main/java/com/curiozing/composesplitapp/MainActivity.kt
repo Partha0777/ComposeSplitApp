@@ -66,7 +66,6 @@ fun MyApp() {
 }
 
 
-
 @Composable
 fun HeaderView() {
     Card(
@@ -103,14 +102,19 @@ fun FormView() {
         Spacer(modifier = Modifier.height(18.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
-            Text(text = "Total Persons", style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight(600)))
-            Row (verticalAlignment = Alignment.CenterVertically){
-                RounderIconButton(Icons.Filled.AddCircle){}
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = "Total Persons",
+                style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight(600))
+            )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                RounderIconButton(Icons.Filled.AddCircle) {}
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(text = "0", style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight(600)))
                 Spacer(modifier = Modifier.width(8.dp))
-                RounderIconButton(Icons.Outlined.Delete){}
+                RounderIconButton(Icons.Outlined.Delete) {}
 
             }
         }
@@ -119,8 +123,8 @@ fun FormView() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RounderIconButton(icon: ImageVector, onClick : () -> Unit){
-    Card(modifier = Modifier,shape = CircleShape, onClick = {
+fun RounderIconButton(icon: ImageVector, onClick: () -> Unit) {
+    Card(modifier = Modifier, shape = CircleShape, onClick = {
         onClick.invoke()
     }) {
         Icon(imageVector = icon, contentDescription = "", modifier = Modifier.padding(4.dp))
