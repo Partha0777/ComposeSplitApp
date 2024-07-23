@@ -3,6 +3,7 @@ package com.curiozing.composesplitapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,9 +12,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -96,10 +101,17 @@ fun FormView() {
                 totalValue = it
             })
         Spacer(modifier = Modifier.height(18.dp))
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
             Text(text = "Total Persons", style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight(600)))
-            Row {
-                RounderIconButton(Icons.Filled.Add){}
+            Row (verticalAlignment = Alignment.CenterVertically){
+                RounderIconButton(Icons.Filled.AddCircle){}
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(text = "0", style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight(600)))
+                Spacer(modifier = Modifier.width(8.dp))
+                RounderIconButton(Icons.Outlined.Delete){}
+
             }
         }
     }
