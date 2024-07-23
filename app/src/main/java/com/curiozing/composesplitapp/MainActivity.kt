@@ -87,6 +87,7 @@ fun HeaderView() {
 @Composable
 fun FormView() {
     var totalValue by remember { mutableStateOf("") }
+    var totalPersons by remember { mutableStateOf("0") }
 
     Column(
         modifier = Modifier
@@ -110,11 +111,18 @@ fun FormView() {
                 style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight(600))
             )
             Row(verticalAlignment = Alignment.CenterVertically) {
-                RounderIconButton(Icons.Filled.AddCircle) {}
+
+                RounderIconButton(Icons.Filled.AddCircle) {
+                    totalPersons = (totalPersons.toInt() + 1).toString()
+                }
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(text = "0", style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight(600)))
+                Text(text = totalPersons, style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight(600)))
                 Spacer(modifier = Modifier.width(8.dp))
-                RounderIconButton(Icons.Outlined.Delete) {}
+                RounderIconButton(Icons.Outlined.Delete) {
+                    if(totalPersons != "0"){
+                        totalPersons = (totalPersons.toInt() - 1).toString()
+                    }
+                }
 
             }
         }
