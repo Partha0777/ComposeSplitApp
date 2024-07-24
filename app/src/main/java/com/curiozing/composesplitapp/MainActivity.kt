@@ -68,9 +68,11 @@ fun MyApp() {
         }
         Column {
             HeaderView(totalPerHead)
-            Box(modifier = Modifier
-                .padding(12.dp)
-                .border(width = 1.dp, color = Color.Gray, shape = RoundedCornerShape(4))) {
+            Box(
+                modifier = Modifier
+                    .padding(12.dp)
+                    .border(width = 1.dp, color = Color.Gray, shape = RoundedCornerShape(4))
+            ) {
                 FormView(totalPerHead)
             }
 
@@ -80,7 +82,7 @@ fun MyApp() {
 
 
 @Composable
-fun HeaderView(totalPerHead:MutableState<Double>) {
+fun HeaderView(totalPerHead: MutableState<Double>) {
     Card(
         modifier = Modifier
             .height(150.dp)
@@ -91,14 +93,17 @@ fun HeaderView(totalPerHead:MutableState<Double>) {
         Box(
             modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
         ) {
-            Text(text = "$${"%.1f".format(totalPerHead.value)}", style = TextStyle(fontSize = 28.sp, fontWeight = FontWeight(600)))
+            Text(
+                text = "$${"%.1f".format(totalPerHead.value)}",
+                style = TextStyle(fontSize = 28.sp, fontWeight = FontWeight(600))
+            )
         }
 
     }
 }
 
 @Composable
-fun FormView(totalPerHead:MutableState<Double>) {
+fun FormView(totalPerHead: MutableState<Double>) {
     var userTotalValue by remember { mutableStateOf(0.0) }
     var totalPersons by remember { mutableStateOf("1") }
     var tipValue by remember { mutableFloatStateOf(0f) }
@@ -129,43 +134,53 @@ fun FormView(totalPerHead:MutableState<Double>) {
             Row(verticalAlignment = Alignment.CenterVertically) {
 
                 RounderIconButton(Icons.Outlined.Delete) {
-                    if(totalPersons.toInt() > 1){
+                    if (totalPersons.toInt() > 1) {
                         totalPersons = (totalPersons.toInt() - 1).toString()
-                        totalPerHead.value = calculateTotalValue(userTotalValue = userTotalValue, tipTotal = tipPriceValue, numberOfPerson = totalPersons.toInt())
-                       // onAction(totalPerHead.value)
+                        totalPerHead.value = calculateTotalValue(
+                            userTotalValue = userTotalValue,
+                            tipTotal = tipPriceValue,
+                            numberOfPerson = totalPersons.toInt()
+                        )
                     }
                 }
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(text = totalPersons, style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight(600)))
+                Text(
+                    text = totalPersons,
+                    style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight(600))
+                )
                 Spacer(modifier = Modifier.width(8.dp))
                 RounderIconButton(Icons.Filled.AddCircle) {
                     totalPersons = (totalPersons.toInt() + 1).toString()
-                    totalPerHead.value = calculateTotalValue(userTotalValue = userTotalValue, tipTotal = tipPriceValue, numberOfPerson = totalPersons.toInt())
-                   // onAction(totalPerHead.value)
+                    totalPerHead.value = calculateTotalValue(
+                        userTotalValue = userTotalValue,
+                        tipTotal = tipPriceValue,
+                        numberOfPerson = totalPersons.toInt()
+                    )
                 }
-
-
             }
         }
         Spacer(modifier = Modifier.height(18.dp))
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Text(text = "Tip ${(tipValue * 100).toInt()}%")
             tipPriceValue = (userTotalValue * (tipValue * 100).toInt()) / 100
-            Text(text = "$${tipPriceValue}")
-            totalPerHead.value = calculateTotalValue(userTotalValue = userTotalValue, tipTotal = tipPriceValue, numberOfPerson = totalPersons.toInt())
+            Text(text = "$${tipPriceValue}", fontWeight = FontWeight(600))
+            totalPerHead.value = calculateTotalValue(
+                userTotalValue = userTotalValue,
+                tipTotal = tipPriceValue,
+                numberOfPerson = totalPersons.toInt()
+            )
         }
 
         Slider(modifier = Modifier.padding(horizontal = 8.dp),
             steps = 9,
-            value = tipValue, onValueChange = {newValue ->
-            tipValue = newValue
-
+            value = tipValue, onValueChange = { newValue ->
+                tipValue = newValue
             })
 
     }
 }
 
-fun calculateTotalValue(userTotalValue:Double,tipTotal:Double,numberOfPerson:Int):Double{
+fun calculateTotalValue(userTotalValue: Double, tipTotal: Double, numberOfPerson: Int): Double {
     val total = userTotalValue + tipTotal;
     return (total / numberOfPerson)
 }
