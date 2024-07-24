@@ -32,7 +32,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -63,7 +63,7 @@ fun MyApp() {
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        var totalPerHead = remember {
+        val totalPerHead = remember {
             mutableDoubleStateOf(0.0)
         }
         Column {
@@ -104,11 +104,10 @@ fun HeaderView(totalPerHead: MutableState<Double>) {
 
 @Composable
 fun FormView(totalPerHead: MutableState<Double>) {
-    var userTotalValue by remember { mutableStateOf(0.0) }
-    var totalPersons by remember { mutableStateOf("1") }
-    var tipValue by remember { mutableFloatStateOf(0f) }
+    var userTotalValue by remember { mutableDoubleStateOf(0.0) }
+    var totalPersons by remember { mutableIntStateOf(0) }
+    var tipPercentage by remember { mutableFloatStateOf(0f) }
     var tipPriceValue by remember { mutableDoubleStateOf(0.0) }
-    var totalValue by remember { mutableDoubleStateOf(0.0) }
 
     Column(
         modifier = Modifier
@@ -134,35 +133,35 @@ fun FormView(totalPerHead: MutableState<Double>) {
             Row(verticalAlignment = Alignment.CenterVertically) {
 
                 RounderIconButton(Icons.Outlined.Delete) {
-                    if (totalPersons.toInt() > 1) {
-                        totalPersons = (totalPersons.toInt() - 1).toString()
+                    if (totalPersons > 1) {
+                        totalPersons -= 1
                         totalPerHead.value = calculateTotalValue(
                             userTotalValue = userTotalValue,
                             tipTotal = tipPriceValue,
-                            numberOfPerson = totalPersons.toInt()
+                            numberOfPerson = totalPersons
                         )
                     }
                 }
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = totalPersons,
+                    text = totalPersons.toString(),
                     style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight(600))
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 RounderIconButton(Icons.Filled.AddCircle) {
-                    totalPersons = (totalPersons.toInt() + 1).toString()
+                    totalPersons += 1
                     totalPerHead.value = calculateTotalValue(
                         userTotalValue = userTotalValue,
                         tipTotal = tipPriceValue,
-                        numberOfPerson = totalPersons.toInt()
+                        numberOfPerson = totalPersons
                     )
                 }
             }
         }
         Spacer(modifier = Modifier.height(18.dp))
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Text(text = "Tip ${(tipValue * 100).toInt()}%")
-            tipPriceValue = (userTotalValue * (tipValue * 100).toInt()) / 100
+            Text(text = "Tip ${(tipPercentage * 100).toInt()}%")
+            tipPriceValue = (userTotalValue * (tipPercentage * 100).toInt()) / 100
             Text(text = "$${tipPriceValue}", fontWeight = FontWeight(600))
             totalPerHead.value = calculateTotalValue(
                 userTotalValue = userTotalValue,
@@ -173,8 +172,8 @@ fun FormView(totalPerHead: MutableState<Double>) {
 
         Slider(modifier = Modifier.padding(horizontal = 8.dp),
             steps = 9,
-            value = tipValue, onValueChange = { newValue ->
-                tipValue = newValue
+            value = tipPercentage, onValueChange = { newValue ->
+                tipPercentage = newValue
             })
 
     }
@@ -193,7 +192,6 @@ fun RounderIconButton(icon: ImageVector, onClick: () -> Unit) {
     }) {
         Icon(imageVector = icon, contentDescription = "", modifier = Modifier.padding(4.dp))
     }
-
 }
 
 @Composable
