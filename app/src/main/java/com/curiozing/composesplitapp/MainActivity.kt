@@ -32,7 +32,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -63,7 +63,7 @@ fun MyApp() {
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        val totalPerHead = remember {
+        var totalPerHead = remember {
             mutableDoubleStateOf(0.0)
         }
         Column {
@@ -104,8 +104,8 @@ fun HeaderView(totalPerHead: MutableState<Double>) {
 
 @Composable
 fun FormView(totalPerHead: MutableState<Double>) {
-    var userTotalValue by remember { mutableDoubleStateOf(0.0) }
-    var totalPersons by remember { mutableIntStateOf(0) }
+    var userTotalValue by remember { mutableStateOf(0.0) }
+    var totalPersons by remember { mutableStateOf(1) }
     var tipPercentage by remember { mutableFloatStateOf(0f) }
     var tipPriceValue by remember { mutableDoubleStateOf(0.0) }
 
@@ -166,7 +166,7 @@ fun FormView(totalPerHead: MutableState<Double>) {
             totalPerHead.value = calculateTotalValue(
                 userTotalValue = userTotalValue,
                 tipTotal = tipPriceValue,
-                numberOfPerson = totalPersons.toInt()
+                numberOfPerson = totalPersons
             )
         }
 
@@ -192,6 +192,7 @@ fun RounderIconButton(icon: ImageVector, onClick: () -> Unit) {
     }) {
         Icon(imageVector = icon, contentDescription = "", modifier = Modifier.padding(4.dp))
     }
+
 }
 
 @Composable
