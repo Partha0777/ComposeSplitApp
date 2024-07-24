@@ -1,6 +1,7 @@
 package com.curiozing.composesplitapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.border
@@ -26,10 +27,15 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -63,10 +69,15 @@ fun MyApp() {
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
+        var totalPerHead = remember {
+            mutableDoubleStateOf(0.0)
+        }
         Column {
-            HeaderView()
-            Box(modifier = Modifier.padding(12.dp).border(width = 1.dp, color = Color.Gray, shape = RoundedCornerShape(4))) {
-                FormView()
+            HeaderView(totalPerHead)
+            Box(modifier = Modifier
+                .padding(12.dp)
+                .border(width = 1.dp, color = Color.Gray, shape = RoundedCornerShape(4))) {
+                FormView(totalPerHead)
             }
 
         }
@@ -75,7 +86,7 @@ fun MyApp() {
 
 
 @Composable
-fun HeaderView() {
+fun HeaderView(totalPerHead:MutableState<Double>) {
     Card(
         modifier = Modifier
             .height(150.dp)
@@ -86,16 +97,18 @@ fun HeaderView() {
         Box(
             modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
         ) {
-            Text(text = "$100", style = TextStyle(fontSize = 28.sp, fontWeight = FontWeight(600)))
+            Text(text = "$${"%.1f".format(totalPerHead.value)}", style = TextStyle(fontSize = 28.sp, fontWeight = FontWeight(600)))
         }
 
     }
 }
 
 @Composable
-fun FormView() {
-    var totalValue by remember { mutableStateOf("") }
-    var totalPersons by remember { mutableStateOf("0") }
+fun FormView(totalPerHead:MutableState<Double>) {
+    var totalValue by remember { mutableStateOf(0.0) }
+    var totalPersons by remember { mutableStateOf("1") }
+    var tipValue by remember { mutableFloatStateOf(0f) }
+    var tipPriceValue by remember { mutableDoubleStateOf(0.0) }
 
     Column(
         modifier = Modifier
@@ -105,8 +118,8 @@ fun FormView() {
 
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
-            value = totalValue, onValueChange = {
-                totalValue = it
+            value = totalValue.toString(), onValueChange = {
+                totalValue = it.toDouble()
             })
         Spacer(modifier = Modifier.height(18.dp))
         Row(
@@ -121,8 +134,11 @@ fun FormView() {
             Row(verticalAlignment = Alignment.CenterVertically) {
 
                 RounderIconButton(Icons.Outlined.Delete) {
-                    if(totalPersons != "0"){
+                    if(totalPersons.toInt() > 1){
                         totalPersons = (totalPersons.toInt() - 1).toString()
+                        val total = totalValue + tipPriceValue;
+                        totalPerHead.value = (total / totalPersons.toInt())
+                       // onAction(totalPerHead.value)
                     }
                 }
                 Spacer(modifier = Modifier.width(8.dp))
@@ -130,11 +146,31 @@ fun FormView() {
                 Spacer(modifier = Modifier.width(8.dp))
                 RounderIconButton(Icons.Filled.AddCircle) {
                     totalPersons = (totalPersons.toInt() + 1).toString()
+                    val total = totalValue + tipPriceValue;
+                    totalPerHead.value = (total / totalPersons.toInt())
+                   // onAction(totalPerHead.value)
                 }
 
 
             }
         }
+        Spacer(modifier = Modifier.height(18.dp))
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            Text(text = "Tip ${(tipValue * 100).toInt()}%")
+            tipPriceValue = (totalValue * (tipValue * 100).toInt()) / 100
+            Text(text = "$${tipPriceValue}")
+            val total = totalValue + tipPriceValue;
+            totalPerHead.value = ( total / totalPersons.toInt())
+
+        }
+
+        Slider(modifier = Modifier.padding(horizontal = 8.dp),
+            steps = 9,
+            value = tipValue, onValueChange = {newValue ->
+            tipValue = newValue
+
+            })
+
     }
 }
 
