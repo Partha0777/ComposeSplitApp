@@ -94,10 +94,17 @@ fun HeaderView(totalPerHead: MutableState<Double>) {
         Box(
             modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
         ) {
-            Text(
-                text = "$${"%.1f".format(totalPerHead.value)}",
-                style = TextStyle(fontSize = 28.sp, fontWeight = FontWeight(600))
-            )
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    text = "$${"%.1f".format(totalPerHead.value)}",
+                    style = TextStyle(fontSize = 28.sp, fontWeight = FontWeight(600))
+                )
+                Text(
+                    text = "Per Head",
+                    style = TextStyle(fontSize = 14.sp, fontWeight = FontWeight(600))
+                )
+            }
+
         }
 
     }
