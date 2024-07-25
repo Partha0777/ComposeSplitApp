@@ -32,6 +32,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -104,8 +105,8 @@ fun HeaderView(totalPerHead: MutableState<Double>) {
 
 @Composable
 fun FormView(totalPerHead: MutableState<Double>) {
-    var userTotalValue by remember { mutableStateOf(0.0) }
-    var totalPersons by remember { mutableStateOf(1) }
+    var userTotalValue by remember { mutableDoubleStateOf(0.0) }
+    var totalPersons by remember { mutableIntStateOf(1) }
     var tipPercentage by remember { mutableFloatStateOf(0f) }
     var tipPriceValue by remember { mutableDoubleStateOf(0.0) }
 
@@ -143,11 +144,14 @@ fun FormView(totalPerHead: MutableState<Double>) {
                     }
                 }
                 Spacer(modifier = Modifier.width(8.dp))
+
                 Text(
                     text = totalPersons.toString(),
                     style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight(600))
                 )
+
                 Spacer(modifier = Modifier.width(8.dp))
+
                 RounderIconButton(Icons.Filled.AddCircle) {
                     totalPersons += 1
                     totalPerHead.value = calculateTotalValue(
@@ -158,7 +162,9 @@ fun FormView(totalPerHead: MutableState<Double>) {
                 }
             }
         }
+
         Spacer(modifier = Modifier.height(18.dp))
+
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Text(text = "Tip ${(tipPercentage * 100).toInt()}%")
             tipPriceValue = (userTotalValue * (tipPercentage * 100).toInt()) / 100
